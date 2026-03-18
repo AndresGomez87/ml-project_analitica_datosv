@@ -62,3 +62,23 @@ Construir un modelo de clasificación que prediga si un individuo tiene diabetes
 3. **Hipótesis de reducción dimensional:** Un modelo de clasificación entrenado con las 10 variables más correlacionadas con la variable objetivo alcanza un desempeño (AUC-ROC) comparable al modelo entrenado con las 21 variables predictoras, lo que permite simplificar el modelo sin pérdida significativa de capacidad predictiva.
 
 4. **Hipótesis socioeconómica:** El nivel de ingresos (Income) y el nivel educativo (Education) tienen un efecto indirecto sobre el riesgo de diabetes, mediado por variables de estilo de vida como actividad física (PhysActivity), hábitos alimenticios (Fruits, Veggies) y consumo de alcohol (HvyAlcoholConsump).
+
+## j) Limitaciones del dataset
+- Los datos provienen de una encuesta de autorespuesta, por lo que algunas variables
+  como GenHlth, MentHlth y PhysHlth dependen de la percepción subjetiva del encuestado.
+- El dataset corresponde a datos de EE.UU. (2015), por lo que los patrones
+  socioeconómicos pueden no generalizarse directamente a contextos latinoamericanos.
+- El desbalanceo de clases (86% / 14%) requiere atención especial en la evaluación
+  del modelo para evitar conclusiones engañosas basadas solo en exactitud.
+
+  ## k) Metodología propuesta
+1. Análisis exploratorio de datos (EDA): distribución de variables, correlaciones
+   y visualización del desbalanceo de clases.
+2. Preprocesamiento: verificación de valores nulos, encoding de variables
+   categóricas ordinales y escalado del BMI.
+3. Modelado: comparación de al menos dos clasificadores
+   (por ejemplo, regresión logística y árbol de decisión o random forest).
+4. Evaluación: uso de AUC-ROC, matriz de confusión, precisión y recall
+   como métricas principales.
+5. Interpretación: análisis de importancia de variables para responder
+   las hipótesis planteadas.
