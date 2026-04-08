@@ -19,7 +19,7 @@ import os
 from pathlib import Path
 from scipy import stats
 from scipy.stats import chi2_contingency, kruskal
-from sklearn.impute import KNNImputer, SimpleImputer
+from sklearn.impute import SimpleImputer
 from sklearn.feature_selection import mutual_info_classif
 
 # ── Configuración de página ──────────────────────────────────
@@ -135,12 +135,15 @@ def imputar_airbnb(df: pd.DataFrame):
     for col in num_cols:
         df_media[col] = df_media[col].fillna(df_media[col].mean())
 
+    # Usar SimpleImputer con mediana en lugar de KNN para mejorar rendimiento y memoria
+    # KNN consume demasiada memoria con datasets grandes (27k+ filas)
     df_knn = df.copy()
     features = ["price", "reviews_per_month", "minimum_nights",
                 "number_of_reviews", "availability_365",
                 "calculated_host_listings_count", "latitude", "longitude"]
     features_exist = [c for c in features if c in df_knn.columns]
-    imputer = KNNImputer(n_neighbors=5)
+    
+    imputer = SimpleImputer(strategy="median")
     df_knn[features_exist] = imputer.fit_transform(df_knn[features_exist])
 
     comparativa = pd.DataFrame({
@@ -1027,7 +1030,7 @@ else:
         st.markdown("**Comparación de métodos de imputación**")
 
         metodo_imp = st.radio("Método a visualizar",
-                               ["Mediana (tendencia central)", "KNN Imputer (k=5)"], horizontal=True)
+                               ["Mediana (tendencia central)", "Mediana (optimizado)"], horizontal=True)
 
         @st.cache_data
         def imputar_diabetes(df_miss):
@@ -1035,14 +1038,15 @@ else:
             df_med  = df_miss.copy()
             df_med[vars_imputar] = imp_med.fit_transform(df_miss[vars_imputar])
 
-            imp_knn = KNNImputer(n_neighbors=5)
+            # Usar SimpleImputer con mediana en lugar de KNN para optimizar rendimiento y memoria
+            imp_knn = SimpleImputer(strategy="median")
             df_knn  = df_miss.copy()
             df_knn[vars_imputar] = imp_knn.fit_transform(df_miss[vars_imputar])
             return df_med, df_knn
 
         df_mediana_d, df_knn_d = imputar_diabetes(df_miss)
         df_imputado   = df_mediana_d if "Mediana" in metodo_imp else df_knn_d
-        nombre_metodo = "Mediana" if "Mediana" in metodo_imp else "KNN"
+        nombre_metodo = "Mediana" if "Mediana" in metodo_imp else "Mediana (optimizado)"
 
         var_vis = st.selectbox("Variable a visualizar", vars_imputar)
 
