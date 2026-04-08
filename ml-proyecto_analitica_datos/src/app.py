@@ -186,7 +186,7 @@ with tab1:
         desc["asimetría"] = df[vars_desc].skew().round(3)
         desc = desc[["count","mean","mediana","std","min","25%","75%","max","asimetría"]]
         desc.columns = ["n","media","mediana","std","min","Q1","Q3","max","asimetría"]
-        st.dataframe(desc.round(3), use_container_width=True)
+        st.dataframe(desc.round(3), width="stretch")
 
     else:
         rows = []
@@ -199,7 +199,7 @@ with tab1:
                 "frecuencia_1": vc.get(1, 0),
                 "pct_1 (%)": round(vc.get(1, 0) / len(df[var].dropna()) * 100, 2)
             })
-        st.dataframe(pd.DataFrame(rows), use_container_width=True)
+        st.dataframe(pd.DataFrame(rows), width="stretch")
 
     st.markdown("---")
     st.subheader("Distribución de la variable objetivo")
@@ -217,7 +217,7 @@ with tab1:
         )
         fig.update_traces(textposition="outside", textinfo="percent+label")
         fig.update_layout(showlegend=False, margin=dict(t=20, b=20))
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
 
     with col2:
         fig = px.bar(
@@ -229,7 +229,7 @@ with tab1:
         )
         fig.update_traces(texttemplate="%{text:,}", textposition="outside")
         fig.update_layout(showlegend=False, xaxis_title="", yaxis_title="Registros")
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
 
     st.info(
         f"ℹ️ **Desbalanceo:** la clase mayoritaria (sin diabetes) representa el "
@@ -259,7 +259,7 @@ with tab2:
         fig.add_vline(x=30, line_dash="dash", line_color="black",
                       annotation_text="Obeso", annotation_position="top right")
         fig.update_layout(legend_title_text="Clase")
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
 
     with col2:
         st.markdown("**Tasa de diabetes por grupo de edad**")
@@ -272,7 +272,7 @@ with tab2:
             title=""
         )
         fig.update_layout(xaxis_tickangle=-30, coloraxis_showscale=False)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
 
     st.markdown("---")
     col3, col4 = st.columns(2)
@@ -293,7 +293,7 @@ with tab2:
             title=f"Distribución de {var_box} por clase"
         )
         fig.update_layout(showlegend=False)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
 
     with col4:
         var_cat = st.selectbox(
@@ -315,7 +315,7 @@ with tab2:
             title=f"Tasa de diabetes por {var_cat}"
         )
         fig.update_layout(coloraxis_showscale=False)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
 
     st.markdown("---")
     st.markdown("**Tasa de diabetes por nivel de ingresos y educación**")
@@ -329,7 +329,7 @@ with tab2:
         labels=dict(x="Educación", y="Ingresos", color="Tasa diabetes (%)"),
         title="Tasa de diabetes (%) por nivel de ingresos y educación"
     )
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 
 # ─────────────────────────────────────────────────────────────────────────────
 # TAB 3 — Correlaciones
@@ -362,7 +362,7 @@ with tab3:
         xaxis=dict(tickfont=dict(size=9)),
         yaxis=dict(tickfont=dict(size=9))
     )
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 
     st.markdown("---")
     st.markdown("**Correlación de cada variable con `Diabetes_binary`**")
@@ -385,7 +385,7 @@ with tab3:
         yaxis_title="",
         height=500
     )
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 
     st.markdown("---")
     st.markdown("**Información Mutua con `Diabetes_binary`**")
@@ -401,7 +401,7 @@ with tab3:
         labels={"mutual_info": "Mutual Info", "variable": "Variable"}
     )
     fig.update_layout(coloraxis_showscale=False, height=500)
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 
 # ─────────────────────────────────────────────────────────────────────────────
 # TAB 4 — Pruebas estadísticas
@@ -431,7 +431,7 @@ with tab4:
         return pd.DataFrame(resultados).sort_values("V de Cramér", ascending=False)
 
     chi2_df = calcular_chi2(df)
-    st.dataframe(chi2_df, use_container_width=True, hide_index=True)
+    st.dataframe(chi2_df, width="stretch", hide_index=True)
 
     st.markdown("---")
     st.markdown("#### Kruskal-Wallis — Variables numéricas/ordinales vs `Diabetes_binary`")
@@ -456,7 +456,7 @@ with tab4:
         return pd.DataFrame(resultados).sort_values("Estadístico H", ascending=False)
 
     kw_df = calcular_kruskal(df)
-    st.dataframe(kw_df, use_container_width=True, hide_index=True)
+    st.dataframe(kw_df, width="stretch", hide_index=True)
 
     st.markdown("---")
     st.markdown("#### Interpretación")
@@ -505,7 +505,7 @@ with tab5:
             "Faltantes": [df_miss[v].isnull().sum() for v in vars_imputar],
             "Porcentaje (%)": [round(df_miss[v].isnull().mean()*100, 2) for v in vars_imputar]
         })
-        st.dataframe(miss_info, hide_index=True, use_container_width=True)
+        st.dataframe(miss_info, hide_index=True, width="stretch")
 
     with col2:
         fig = px.bar(
@@ -514,7 +514,7 @@ with tab5:
             title="% de valores faltantes por variable"
         )
         fig.update_layout(coloraxis_showscale=False)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
 
     st.markdown("---")
     st.markdown("**Comparación de métodos de imputación**")
@@ -550,7 +550,7 @@ with tab5:
             color_discrete_sequence=["#4C9BE8"]
         )
         fig.update_layout(xaxis_title=var_vis, yaxis_title="Frecuencia")
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
 
     with col4:
         fig = px.histogram(
@@ -559,7 +559,7 @@ with tab5:
             color_discrete_sequence=["#E8A84C" if nombre_metodo=="Mediana" else "#4CE8A0"]
         )
         fig.update_layout(xaxis_title=var_vis, yaxis_title="Frecuencia")
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
 
     st.markdown("---")
     st.markdown("**Tabla comparativa de estadísticos antes y después de la imputación**")
@@ -586,7 +586,7 @@ with tab5:
         })
 
     comp_df = pd.DataFrame(comp_rows)
-    st.dataframe(comp_df, hide_index=True, use_container_width=True)
+    st.dataframe(comp_df, hide_index=True, width="stretch")
 
     with st.expander("📖 Justificación del método recomendado"):
         st.markdown("""
