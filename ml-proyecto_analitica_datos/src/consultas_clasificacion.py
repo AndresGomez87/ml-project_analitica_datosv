@@ -1,9 +1,9 @@
 """
 Consultas SQL — Dataset de Clasificación: Diabetes Health Indicators
-Ejecutar después de database/crear_base_datos.py
+Ejecutar después de src/crear_base_datos.py
 
 Uso:
-    python database/consultas_clasificacion.py
+    python src/consultas_clasificacion.py
 """
 
 import sqlite3

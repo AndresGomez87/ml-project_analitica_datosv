@@ -17,6 +17,7 @@ __pycache__/
 *.dat
 *.sql
 *.sqlite
+*.db
 
 # Credenciales y secretos
 credenciales.json
@@ -25,3 +26,7 @@ keys.txt
 # Archivos del Sistema Operativo
 .DS_Store
 Thumbs.db
+
+# IDE y editores
+.vscode/
+.ipynb_checkpoints/
