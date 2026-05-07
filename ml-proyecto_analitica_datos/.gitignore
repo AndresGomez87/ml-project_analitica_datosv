@@ -30,3 +30,9 @@ Thumbs.db
 # IDE y editores
 .vscode/
 .ipynb_checkpoints/
+
+# Documentos basura
+*.pdf
+*.docx
+reports/
+models/model_regression.joblib
